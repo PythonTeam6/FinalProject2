@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "TeamQT", "TeamQT.pyproj", "{8246E537-6FA9-4EB0-B3D7-97164FC09D16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE08BF2D-A077-4015-844C-55BE0B44E896}"
+	ProjectSection(SolutionItems) = preProject
+		DB_Control.py = DB_Control.py
+		MP3.py = MP3.py
+		Video.py = Video.py
+		Web_Parser.py = Web_Parser.py
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8246E537-6FA9-4EB0-B3D7-97164FC09D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8246E537-6FA9-4EB0-B3D7-97164FC09D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
