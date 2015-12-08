@@ -5,6 +5,7 @@ from PyQt5 import QtGui
 from PyQt5 import uic
 from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
+from mutagen.easyid3 import EasyID3
 
 
 class Form(QtWidgets.QMainWindow):
@@ -113,3 +114,20 @@ class Form(QtWidgets.QMainWindow):
                 newitem.setText(os.path.basename(self.files[k+self.row]))
                 self.tableWidget.setItem(k+self.row, 2, newitem)  
             self.row = len(self.files)
+
+    def test(self):
+        audio = EasyID3("Harder, Better, Faster, Stronger.mp3")
+        audio2 = EasyID3("Jessie+J-01-Bang+Bang.mp3")
+        keys = audio.valid_keys.keys()
+        keys2 = audio2.valid_keys.keys()
+        for key in keys:
+            try:
+                print(key, ' : ', audio[key])
+            except:
+                pass
+        for key in keys2:
+            try:
+                print(key, ' : ', audio2[key])
+            except:
+                pass
+        #audio.save()
