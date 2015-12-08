@@ -231,8 +231,8 @@ class VideoForm(QtWidgets.QMainWindow):
                     t, etc = os.path.splitext(self.subFiles[i])     # 자막 확장자 받기
                     
                     print(subName, '\n->', videoName + etc)
-                    #os.rename(self.subFiles[i], videoPath + etc)  # 파일 이름바꾸기
-                    shutil.copy(self.subFiles[i], videoPath + etc)    # 파일 복사
+                    os.rename(self.subFiles[i], videoPath + etc)  # 파일 이름바꾸기
+                    #shutil.copy(self.subFiles[i], videoPath + etc)    # 파일 복사
             else:
                 print('video와 sub의 갯수가 다름')
         else:

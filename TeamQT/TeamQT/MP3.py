@@ -7,6 +7,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import pyqtSlot
 from mutagen.easyid3 import EasyID3
 
+from Web_Parser import *
 
 class Form(QtWidgets.QMainWindow):
     
@@ -82,12 +83,46 @@ class Form(QtWidgets.QMainWindow):
             newitem.setText(os.path.basename(self.files[k]))
             self.tableWidget.setItem(k, 2, newitem)            
             
-    
-    
+    def nameParse(self, file):
+        audio = EasyID3(file)
+        t, fileName = os.path.split(file)
+        fileName, t = os.path.splitext(fileName)
+        print(fileName)
+
+        keys = audio.valid_keys.keys()
+
+        p = re.compile('\w+')
+        names = p.findall(fileName)
+
+        print(names)
+        return names
+
     def OnClickConvert(self):
-        print("I'm convert Button")
+        if len(self.files) == 0:
+            print('파일이 없당.')
+            return
+
+        path = []
+        file = []
+        for item in self.files:
+            p, f = os.path.split(item)
+            path.append(p)
+            file.append(f)
+
+        #'Ariana+-+Grande+-+Problem.mp3'
+        #'Daft+-+Punk+-+ Harder+-+Better+-+Faster+-+Stronger.mp3'
+        jparse = JSON_Parser()
+        for i in range(len(path)):
+            print(file[i])
+            parseList = self.nameParse(file[i])
+            song, artist = jparse.matchSongname(parseList)
+            os.rename(path[i]+'/'+file[i], path[i]+'/'+artist+'-'+song+'.mp3')
+
+
+        
     def OnClickFormat(self):
         print("I'm format Button")
+
     def OnClickPath(self):
         print("I'm path Button")
     

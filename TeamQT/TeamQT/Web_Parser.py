@@ -66,15 +66,23 @@ class JSON_Parser:
             print('Key limit! Last keyword : ', searchKeyword, e)
         
         return reList
+    
+    def algo2(self, nameList):
+        k = 0
+        length = len(nameList)
+        names2 = []
+        for i in range(length):
+            for num in range(length-i):    
+                names2.append(nameList[num+k+1:])
+            k = k+1
+        return names2
 
-    def matchSongname(self, nameList):
+
+    def algorithm(self, nameList):
         length = len(nameList)
         name = ''
         names = []
-        realSongName = []
-        realArtistName = []
-        
-        for i in range (length):
+        for i in range (length): 
             for num in range(length-i):
                 if name == '':
                     name = nameList[num+i]
@@ -83,38 +91,55 @@ class JSON_Parser:
                 print(name)
                 names.append(name)
             name = ''
-        
-        inNum = 0
-        for name in names:
-            l = self.parsingToMelon(name)
-                
-            for i in range(len(l)):
-                if l[i][1] in names:
-                    #print(l[i][1])
-                    realArtistName.append(l[i][1])
-                    #break
-                try:
-                    if l[i][0].index(name):
-                        print(l[i][0])
-                        realSongName.append(l[i][0])
-                        #break
-                except ValueError:
-                    pass
-            try:
-                index = realArtistName.index(name)
-                artist = realArtistName[index]
-            except:
-                pass
-            try:
-                if realSongName[inNum].index(name):
-                    song = realSongName[inNum]
-                    inNum += 1
-                #index = realSongName.index(name)
-            except:
-                pass
 
-        print(artist)
-        print(song)
+        return names
+
+    def algo3(self, nameList):
+        length = len(nameList)
+        songName = []
+        artistName = []
+        name1 = ''
+        name2 = ''
+        for i in range(length+1):
+            for j in range(length-i):
+                if name1 == '':
+                    name1 = nameList[j]
+                else:
+                    name1 = name1 + ' ' + nameList[j]
+            for j in range(length-i):
+                if name2 == '':
+                    name2 = nameList[i+j]
+                else:
+                    name2 = name2 + ' ' + nameList[i+j]
+            artistName.append(name1)
+            artistName.sort(reverse=False)
+            songName.append(name2)
+
+            name1 = ''
+            name2 = ''
+
+        return songName, artistName
+
+    def matchSongname(self, nameList):
+        realSongName, realArtistName = self.algo3(nameList)
+        print(realSongName,'\n',realArtistName,'\n')
+                
+        index = 0
+        length = len(realSongName)
+        for i in range(length):
+            p = re.compile(realArtistName[i])
+            p2 = re.compile(realSongName[i])
+            if len(realSongName[i]) != 0:
+                l = self.parsingToMelon(realSongName[i])
+
+            for j in range(len(l)):
+                if p.match(l[j][1]) or p2.match(l[j][0]):
+                    print(l[j][1],'\n',l[j][0],'\n',realSongName[i])
+                    songName = l[j][0]
+                    artistName = l[j][1]
+
+                    return songName, artistName
+
 
     def request_Melon(self, searchKeyword):
         #http://apis.skplanetx.com/melon/artists?format=json&appKey=345e9f53-3eae-3fed-988d-6127852f2633&version=1&page=0&count=50&searchKeyword=
@@ -137,10 +162,6 @@ class JSON_Parser:
                 self.data = urlopen(self.url)
                 self.data = self.data.read().decode(encoding = 'utf-8')
                 self.dic = self.jsonToPython(self.data).melon
-                #print('Pages : ', self.page)
-                #print('totalPages : ', self.dic.totalPages)
-                #print('Count : ', self.count)
-                #print('totalCount : ', self.dic.totalCount)
 
                 if self.dic.totalCount != self.count or self.dic.totalPages != self.page:
                     self.count = self.dic.totalCount
@@ -152,11 +173,6 @@ class JSON_Parser:
             reList = []
             for item in list:   #artistName, sex, nationalityName, actTypeName, genreNames
                 if item.nationalityName == '대한민국':
-                    #print('artistName : ', item.artistName)
-                    #print('sex : ', item.sex)
-                    #print('nationalityName : ', item.nationalityName)
-                    #print('actTypeName : ', item.actTypeName)
-                    #print('genreNames : ', item.genreNames, '\n')
                     reList.append(item.artistName)
                 
         except AttributeError:
