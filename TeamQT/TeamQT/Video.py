@@ -50,6 +50,7 @@ class VideoForm(QtWidgets.QMainWindow):
         width = geo.width()
         height = geo.height()
         
+        self.setWindowTitle('더 어블클릭')
         self.row = 0
         self.row2 = 0
         self.videoFiles = []
@@ -232,11 +233,13 @@ class VideoForm(QtWidgets.QMainWindow):
                     
                     print(subName, '\n->', videoName + etc)
                     os.rename(self.subFiles[i], videoPath + etc)  # 파일 이름바꾸기
+                    
                     #shutil.copy(self.subFiles[i], videoPath + etc)    # 파일 복사
+                QtWidgets.QMessageBox.information(self,"성공!","비디오 파일 폴더에 자막이 추가되었습니다.")
             else:
-                print('video와 sub의 갯수가 다름')
+                QtWidgets.QMessageBox.information(self,"주의!","비디오와 자막의 개수를 맞춘 뒤\n다시 시도해 주세요")
         else:
-            print('video나 sub가 비었음')
+            QtWidgets.QMessageBox.information(self,"주의!","비디오나 자막을 추가한 뒤\n다시 시도해 주세요")
 
     def OnClickAddVideos(self):
         (a, b) = QtWidgets.QFileDialog.getOpenFileNames(self, 'Open file', self.recentPath, 'Video Files (*.avi *.mp4 *.wmv *.mpeg *.mpg *.flv *.asf *.mov *.mkv);;All Files (*.*)')
